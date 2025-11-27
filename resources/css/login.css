@@ -1,0 +1,43 @@
+/* Animasi fade-in saat halaman login muncul */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.7s ease-out forwards;
+}
+
+/* Tambahan gaya ringan agar tampilan login lebih lembut */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Efek hover lembut pada tombol */
+button:hover {
+    filter: brightness(1.1);
+    transition: filter 0.2s ease-in-out;
+}
+
+/* Placeholder input lebih halus */
+input::placeholder {
+    color: #9CA3AF; /* abu-abu tailwind-400 */
+}
+
+/* Fokus input dengan bayangan halus */
+input:focus, select:focus {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+/* Footer kecil */
+footer {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: #9CA3AF;
+}
