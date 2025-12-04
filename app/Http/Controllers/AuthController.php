@@ -12,9 +12,11 @@ class AuthController extends Controller
         'keuangan' => ['email' => 'keuangan@example.com', 'password' => '12345'],
         'fasilitasi' => ['email' => 'fasilitasi@example.com', 'password' => '12345'],
         'persidangan' => ['email' => 'persidangan@example.com', 'password' => '12345'],
-
-        // Admin
-        'admin' => ['email' => 'admin@example.com', 'password' => 'admin123']
+        'admin' => ['email' => 'admin@example.com', 'password' => 'admin123'],
+        'superadmin' => [
+        'email' => 'superadmin@dprd.sukabumi.go.id',
+        'password' => 'sukabumikuselamanya'
+    ]
     ];
 
     public function showLogin()
@@ -23,45 +25,36 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email'     => 'required',
-            'password'  => 'required',
-            'bagian'    => 'required',
-        ]);
+{
+    $request->validate([
+        'email' => 'required',
+        'password' => 'required',
+        'bagian' => 'required_if:role,!=superadmin', // hanya wajib jika bukan superadmin
+    ]);
 
-        $bagianDipilih = $request->bagian;
+    foreach ($this->accounts as $role => $akun) {
+        if ($request->email === $akun['email'] && $request->password === $akun['password']) {
+            Session::put('role', $role);
+            Session::put('logged_in', true);
 
-        // Cek satu per satu akun
-        foreach ($this->accounts as $role => $akun) {
-            if ($request->email === $akun['email'] && $request->password === $akun['password']) {
-
-                // Simpan role sebenarnya
-                Session::put('role', $role);
-
-                // Simpan bagian yang dipilih user
-                Session::put('bagian', $bagianDipilih);
-
-                // Admin bebas memilih bagian mana saja
-                if ($role === 'admin') {
-                    Session::put('logged_in', true);
-                    return redirect("/dashboard/{$bagianDipilih}");
-                }
-
-                // User biasa: hanya bisa login ke bagiannya sendiri
-                if ($role === $bagianDipilih) {
-                    Session::put('logged_in', true);
-                    return redirect("/dashboard/{$bagianDipilih}");
-                }
-
-                // Jika user biasa memilih bagian lain
-                return back()->with('error', 'Anda tidak punya akses ke bagian tersebut.');
+            if ($role === 'superadmin') {
+                // Super admin → langsung ke halaman "Dashboard Selector"
+                return redirect('/dashboard/superadmin');
             }
-        }
 
-        return back()->with('error', 'Email atau password salah!');
+            // User biasa
+            $bagian = $request->bagian;
+            if ($role === $bagian) {
+                Session::put('bagian', $bagian);
+                return redirect("/dashboard/{$bagian}");
+            }
+
+            return back()->with('error', 'Akses ditolak ke bagian tersebut.');
+        }
     }
 
+    return back()->with('error', 'Email atau password salah!');
+}
     public function logout()
     {
         Session::flush();
