@@ -8,23 +8,20 @@ use Illuminate\Support\Facades\Session;
 
 class CheckBagian
 {
-    public function handle(Request $request, Closure $next)
-{
-    if (!Session::get('logged_in')) {
-        return redirect('/login');
-    }
+    // app/Http/Middleware/CheckBagian.php
 
-    // 🔥 Super admin boleh akses SEMUA bagian
-    if (Session::get('role') === 'superadmin') {
+public function handle($request, Closure $next)
+{
+    // Jika superadmin → bebas akses semua
+    if (session('role') === 'superadmin') {
         return $next($request);
     }
 
-    // User biasa: sesuai bagian
-    $bagianIzin = Session::get('bagian');
-    $bagianUrl = $request->route('bagian');
+    // Jika bukan superadmin → harus cocok dengan bagian
+    $bagian = $request->route('bagian');
 
-    if ($bagianUrl !== $bagianIzin) {
-        abort(403, 'Akses ditolak.');
+    if (session('role') !== $bagian) {
+        abort(403, 'Anda tidak memiliki akses ke bagian ini.');
     }
 
     return $next($request);

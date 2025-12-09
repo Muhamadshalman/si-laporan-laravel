@@ -27,31 +27,35 @@ class AuthController extends Controller
     public function login(Request $request)
 {
     $request->validate([
-        'email' => 'required',
-        'password' => 'required',
-        'bagian' => 'required_if:role,!=superadmin', // hanya wajib jika bukan superadmin
-    ]);
+    'email' => 'required',
+    'password' => 'required',
+    'bagian' => 'required_unless:email,superadmin@dprd.sukabumi.go.id',
+]);
+
 
     foreach ($this->accounts as $role => $akun) {
-        if ($request->email === $akun['email'] && $request->password === $akun['password']) {
-            Session::put('role', $role);
-            Session::put('logged_in', true);
+    if ($request->email === $akun['email'] && $request->password === $akun['password']) {
 
-            if ($role === 'superadmin') {
-                // Super admin → langsung ke halaman "Dashboard Selector"
-                return redirect('/dashboard/superadmin');
-            }
+        Session::put('role', $role);
+        Session::put('logged_in', true);
 
-            // User biasa
-            $bagian = $request->bagian;
-            if ($role === $bagian) {
-                Session::put('bagian', $bagian);
-                return redirect("/dashboard/{$bagian}");
-            }
-
-            return back()->with('error', 'Akses ditolak ke bagian tersebut.');
+        // Jika superadmin
+        if ($role === 'superadmin') {
+            // Tidak perlu bagian, langsung ke halaman superadmin
+            return redirect('/dashboard/superadmin');
         }
+
+        // Untuk user biasa harus sesuai bagian
+        $bagian = $request->bagian;
+
+        if ($role === $bagian) {
+            Session::put('bagian', $bagian);
+            return redirect("/dashboard/{$bagian}");
+        }
+
+        return back()->with('error', 'Akses ditolak ke bagian tersebut.');
     }
+}
 
     return back()->with('error', 'Email atau password salah!');
 }

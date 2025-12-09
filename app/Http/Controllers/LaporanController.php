@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Session;
 class LaporanController extends Controller
 {
     public function index($bagian)
-    {
-        $riwayat = Laporan::where('bagian', $bagian)->latest()->get();
-        return view("{$bagian}.dashboard", compact('riwayat'));
-    }
+{
+    $riwayat = Laporan::where('bagian', $bagian)->latest()->get();
+
+    return view("{$bagian}.dashboard", compact('riwayat', 'bagian'));
+}
 
     public function store(Request $request, $bagian)
     {
@@ -80,18 +81,29 @@ public function download($type, $filename)
 }
 
     public function destroy($id)
-    {
-        $laporan = Laporan::findOrFail($id);
+{
+    $laporan = Laporan::findOrFail($id);
 
-        // Pastikan user hanya bisa hapus data bagiannya sendiri
-        if ($laporan->bagian !== Session::get('bagian')) {
-            abort(403);
+    // Superadmin bebas hapus apa saja
+    if (session('role') !== 'superadmin') {
+        if ($laporan->bagian !== session('bagian')) {
+            abort(403, 'Anda tidak boleh menghapus laporan bagian lain.');
         }
-
-        if ($laporan->file_laporan) Storage::disk('public')->delete($laporan->file_laporan);
-        if ($laporan->file_pajak) Storage::disk('public')->delete($laporan->file_pajak);
-        $laporan->delete();
-
-        return redirect()->back()->with('success', 'Laporan dihapus.');
     }
+
+    // Hapus file laporan jika ada
+    if ($laporan->file_laporan && Storage::exists($laporan->file_laporan)) {
+        Storage::delete($laporan->file_laporan);
+    }
+
+    // Hapus file pajak jika ada
+    if ($laporan->file_pajak && Storage::exists($laporan->file_pajak)) {
+        Storage::delete($laporan->file_pajak);
+    }
+
+    // Hapus record database
+    $laporan->delete();
+
+    return back()->with('success', 'Laporan berhasil dihapus.');
+}
 }
