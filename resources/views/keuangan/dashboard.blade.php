@@ -36,7 +36,7 @@
     <!-- MAIN CONTENT -->
     <main class="flex-1 p-4 md:p-6">
 
-      <!-- NOTIFIKASI -->
+      <!-- NOTIFIKASI SUKSES -->
       @if(session('success'))
         <div class="fixed top-4 right-4 md:right-6 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm">
           {{ session('success') }}
@@ -46,26 +46,26 @@
 
       <!-- UPLOAD SECTION -->
       <section id="upload-section" class="hidden">
-        <div class="bg-white rounded-xl shadow p-4 md:p-6">
-          <div class="mb-5 border-b pb-3">
+        <div class="bg-white rounded-xl shadow p-4 md:p-8 border border-gray-100">
+          <div class="mb-6 border-b pb-3">
             <h2 class="text-lg md:text-xl font-bold text-gray-800">UPLOAD LAPORAN</h2>
-            <p class="text-xs md:text-sm text-gray-500">Silakan unggah dalam format PDF.</p>
+            <p class="text-xs md:text-sm text-gray-500 mt-1">Silakan isi data laporan dan unggah file dalam format PDF.</p>
           </div>
 
-<form action="{{ route('laporan.store', ['bagian' => $bagian]) }}" 
-      method="POST" enctype="multipart/form-data">
+          <form action="{{ route('laporan.store', ['bagian' => $bagian]) }}" 
+            method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-1 gap-4 mb-5">
+            <div class="grid grid-cols-1 gap-5 mb-5">
               <div>
                 <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">Tanggal Kegiatan</label>
-                <input type="date" name="tanggal" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:outline-none">
+                <input type="date" name="tanggal" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500">
               </div>
 
               <div>
-                <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">Pilih Sub Kegiatan</label>
-                <select name="kegiatan" id="kegiatan" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm appearance-none bg-white focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Pilih Sub Kegiatan --</option>
+                <label class="block text-gray-700 font-medium mb-1.5 text-sm">Pilih Sub Kegiatan</label>
+                <select name="kegiatan" id="kegiatan" required class="w-full border border-gray-300 rounded-lg p-3 text-sm appearance-none bg-white focus:ring-blue-500 focus:outline-none">
+                 <option value="">-- Pilih Sub Kegiatan --</option>
                   <option value="Penyusunan_Dokumen_Perencanaan_Perangkat_Daerah">Penyusunan Dokumen Perencanaan Perangkat Daerah</option>
                   <option value="Koordinasi_dan_Penyusunan_Dokumen_RKA_SKPD">Koordinasi dan Penyusunan Dokumen RKA-SKPD</option>
                   <option value="Koordinasi_dan_Penyusunan_Dokumen_Perubahan_RKA_SKPD">Koordinasi dan Penyusunan Dokumen Perubahan RKA-SKPD</option>
@@ -79,28 +79,54 @@
                   <option value="Koordinasi_dan_Penyusunan_Laporan_Keuangan_Bulanan_Triwulanan_Semesteran_SKPD">Koordinasi dan Penyusunan Laporan Keuangan Bulanan/Triwulanan/Semesteran SKPD</option>
                   <option value="Penyusunan_Pelaporan_dan_Analisis_Prognosis_Realisasi_Anggaran">Penyusunan Pelaporan dan Analisis Prognosis Realisasi Anggaran</option>
                   <option value="Penyelenggaraan_Administrasi_Keuangan_DPRD">Penyelenggaraan Administrasi Keuangan DPRD</option>
+                  <option value="Pendidikan_dan_Pelatihan_Pegawai_Berdasarkan_Tugas_Dan_Fungsi">Pendidikan dan  Pelatihan Pegawai Berdasarkan Tugas Dan Fungsi</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">Pilih Uraian Rekening</label>
-                <select name="sub_kegiatan" id="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm appearance-none bg-white focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Pilih Sub Kegiatan dulu --</option>
+                <select name="sub_kegiatan" id="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500">
+                  <option value="">-- Pilih Uraian Rekening --</option>
                 </select>
               </div>
             </div>
 
             <div class="grid grid-cols-1 gap-6 mb-6">
+              <div class="grid grid-cols-1 gap-5 mb-5">
+              <!-- Uraian Kegiatan -->
+               <div>
+                <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">
+               Uraian Kegiatan
+             </label>
+           <textarea name="uraian_kegiatan" rows="3" required
+         class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+       placeholder="Tuliskan uraian kegiatan secara singkat..."></textarea>
+  </div>
+
+  <!-- Jumlah Anggaran -->
+  <div>
+    <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">
+        Jumlah Anggaran (Rp)
+    </label>
+
+    <!-- Input(format rupiah) -->
+    <input type="text" id="format-rupiah" 
+        class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Contoh: 15.000.000">
+
+    <!-- Input hidden yang dikirim ke database -->
+    <input type="hidden" name="jumlah_anggaran" id="jumlah-anggaran">
+</div>
+</div>
               <!-- Laporan Kegiatan -->
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-xs md:text-sm">Upload Laporan Kegiatan (PDF)</label>
                 <div id="file_laporan_preview" class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl text-center cursor-pointer h-32 hover:border-blue-500 bg-gray-50"
-                     onclick="document.getElementById('file_laporan_input').click()">
-                  <svg id="icon_laporan" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  onclick="document.getElementById('file_laporan_input').click()">
+                  <svg id="icon_laporan" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 014 4v2a2 2 0 01-2 2h-3l-2.939 2.939a.999.999 0 01-1.414 0L9 14H7a2 2 0 01-2-2v-2z" />
                   </svg>
                   <p id="text_laporan" class="text-gray-600 text-xs font-medium">Klik untuk unggah file PDF</p>
-                  <p class="text-xs text-gray-400">Maks. 10 MB</p>
+                  <p class="text-xs text-gray-400 mt-1">Maks. 10 MB</p>
                   <input type="file" id="file_laporan_input" name="file_laporan" accept=".pdf" required class="hidden">
                 </div>
               </div>
@@ -109,19 +135,22 @@
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-xs md:text-sm">Upload Laporan Pajak (PDF)</label>
                 <div id="file_pajak_preview" class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl text-center cursor-pointer h-32 hover:border-blue-500 bg-gray-50"
-                     onclick="document.getElementById('file_pajak_input').click()">
-                  <svg id="icon_pajak" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  onclick="document.getElementById('file_pajak_input').click()">
+                  <svg id="icon_pajak" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 014 4v2a2 2 0 01-2 2h-3l-2.939 2.939a.999.999 0 01-1.414 0L9 14H7a2 2 0 01-2-2v-2z" />
                   </svg>
                   <p id="text_pajak" class="text-gray-600 text-xs font-medium">Klik untuk unggah file PDF</p>
-                  <p class="text-xs text-gray-400">Maks. 10 MB</p>
+                  <p class="text-xs text-gray-400 mt-1">Maks. 10 MB</p>
                   <input type="file" id="file_pajak_input" name="file_pajak" accept=".pdf" class="hidden">
                 </div>
               </div>
             </div>
 
             <div class="text-right">
-              <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 font-medium text-sm shadow">
+              <button type="submit" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 font-medium text-sm shadow transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
                 Upload
               </button>
             </div>
@@ -137,23 +166,29 @@
             <input type="text" id="searchInput" placeholder="Cari laporan..." class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm w-full md:w-64">
           </div>
 
-          <!-- MOBILE: CARD LAYOUT -->
+          <!-- Stack Card di mobile, tabel di desktop -->
           <div class="md:hidden space-y-4">
             @forelse ($riwayat as $item)
               <div class="border rounded-lg p-4 bg-gray-50">
-                <div class="text-xs text-gray-600">Tanggal</div>
+                <div class="text-sm text-gray-600">Tanggal</div>
                 <div class="font-medium">{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</div>
 
-                <div class="text-xs text-gray-600 mt-2">Sub Kegiatan</div>
+                <div class="text-sm text-gray-600 mt-2">Sub Kegiatan</div>
                 <div>{{ $item->kegiatan }}</div>
 
-                <div class="text-xs text-gray-600 mt-2">Uraian Rekening</div>
+                <div class="text-sm text-gray-600 mt-2">Uraian Rekening</div>
                 <div>{{ $item->sub_kegiatan }}</div>
+
+                <div class="text-sm text-gray-600 mt-2">Uraian Kegiatan</div>
+                <div>{{ $item->uraian_kegiatan }}</div>
+
+                <div class="text-sm text-gray-600 mt-2">Jumlah Anggaran</div>
+                <div>Rp {{ number_format($item->jumlah_anggaran, 0, ',', '.') }}</div>
 
                 <div class="flex flex-wrap gap-2 mt-3">
                   @if($item->file_laporan)
                     <a href="{{ route('laporan.download', ['type' => 'laporan', 'filename' => basename($item->file_laporan)]) }}" target="_blank"
-                      class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-600 text-white rounded text-xs">
+                      class="inline-flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded text-xs">
                       <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -161,10 +196,9 @@
                       Lihat Laporan
                     </a>
                   @endif
-
                   @if($item->file_pajak)
                     <a href="{{ route('laporan.download', ['type' => 'pajak', 'filename' => basename($item->file_pajak)]) }}" target="_blank"
-                      class="inline-flex items-center gap-1 px-2.5 py-1 bg-green-600 text-white rounded text-xs">
+                      class="inline-flex items-center gap-1 px-3 py-1 bg-green-600 text-white rounded text-xs">
                       <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -175,11 +209,11 @@
                 </div>
               </div>
             @empty
-              <div class="text-center py-6 text-gray-500">Belum ada laporan diunggah.</div>
+              <div class="text-center py-6 text-gray-500">Belum ada laporan.</div>
             @endforelse
           </div>
 
-          <!-- DESKTOP: TABLE -->
+          <!-- Tabel hanya di desktop -->
           <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-sm text-left text-gray-700">
               <thead class="bg-gray-50">
@@ -187,6 +221,8 @@
                   <th class="p-3 border-b">Tanggal</th>
                   <th class="p-3 border-b">Sub Kegiatan</th>
                   <th class="p-3 border-b">Uraian Rekening</th>
+                  <th class="p-3 border-b">Uraian Kegiatan</th>
+                  <th class="p-3 border-b">Jumlah Anggaran</th>
                   <th class="p-3 border-b">File Laporan</th>
                   <th class="p-3 border-b">File Pajak</th>
                   <th class="p-3 border-b">Aksi</th>
@@ -198,11 +234,13 @@
                     <td class="p-3">{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                     <td class="p-3">{{ $item->kegiatan }}</td>
                     <td class="p-3">{{ $item->sub_kegiatan }}</td>
+                    <td class="p-3">{{ $item->uraian_kegiatan }}</td>
+                    <td class="p-3">Rp {{ number_format($item->jumlah_anggaran, 0, ',', '.') }}</td>
                     <td class="p-3">
                       @if($item->file_laporan)
                         <a href="{{ route('laporan.download', ['type' => 'laporan', 'filename' => basename($item->file_laporan)]) }}" target="_blank"
-                          class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-600 text-white rounded text-xs">
-                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          class="inline-flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
@@ -213,8 +251,8 @@
                     <td class="p-3">
                       @if($item->file_pajak)
                         <a href="{{ route('laporan.download', ['type' => 'pajak', 'filename' => basename($item->file_pajak)]) }}" target="_blank"
-                          class="inline-flex items-center gap-1 px-2.5 py-1 bg-green-600 text-white rounded text-xs">
-                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          class="inline-flex items-center gap-1 px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-xs font-medium">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
@@ -234,29 +272,52 @@
             Hapus
         </button>
     </form>
+    <script>
+          document.getElementById('format-rupiah').addEventListener('input', function() {
+          let angka = this.value.replace(/[^0-9]/g, '');
+
+          // update hidden input
+          document.getElementById('jumlah-anggaran').value = angka;
+
+          // format tampilan
+          this.value = new Intl.NumberFormat('id-ID').format(angka);
+          });
+</script>
 </td>
                     </td>
                   </tr>
                 @empty
-                  <tr><td colspan="5" class="p-6 text-center text-gray-500">Belum ada laporan diunggah.</td></tr>
+                  <tr><td colspan="5" class="p-6 text-center text-gray-500">Belum ada laporan.</td></tr>
                 @endforelse
               </tbody>
             </table>
           </div>
         </div>
+        <script>
+            function syncAnggaran() {
+              let nilai = document.getElementById('format-rupiah').value.replace(/[^0-9]/g, "");
+           document.getElementById('jumlah-anggaran').value = nilai;
+          }
+
+          // Jalan saat user mengetik
+          document.getElementById('format-rupiah').addEventListener('input', syncAnggaran);
+
+          // Jalan OTOMATIS saat halaman dibuka
+          window.addEventListener('DOMContentLoaded', syncAnggaran);
+          </script>
       </section>
 
       <footer class="mt-8 text-center text-gray-500 text-xs">
         <div class="text-center text-gray-600 text-sm">
           © {{ date('Y') }} Sekretariat DPRD Kab Sukabumi — SILANDRA
-          <br>
-            <span class="text-gray-500">Developed by <b>Muhamad Shalman</b></span>
+           <br>
+         <span class="text-gray-500">Developed by <b>Muhamad Shalman</b></span>
 </div>
       </footer>
     </main>
   </div>
 
-  <!-- MOBILE NAV -->
+  <!-- MOBILE MENU -->
   <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2 flex justify-around md:hidden z-10">
     <button onclick="showUpload()" id="btn-upload-mobile" class="flex-1 py-2 text-center text-sm font-medium text-gray-700">
       Upload
@@ -267,6 +328,9 @@
   </div>
 
   <script>
+    const kegiatanSelect = document.getElementById('kegiatan');
+    const subKegiatanSelect = document.getElementById('sub_kegiatan');
+
     const uraianOptions = {
       Penyusunan_Dokumen_Perencanaan_Perangkat_Daerah: [
         "Belanja Alat/Bahan untuk Kegiatan Kantor-Alat Tulis Kantor",
@@ -362,22 +426,27 @@
         "Belanja Tunjangan Perumahan DPRD",
         "Belanja Tunjangan Transportasi DPRD",
         "Belanja Uang Jasa Pengabdian DPRD"
+      ],
+      Pendidikan_dan_Pelatihan_Pegawai_Berdasarkan_Tugas_Dan_Fungsi: [
+        "Belanja Sewa Kendaraan Bermotor Penumpang",
+        "Belanja Bimbingan Teknis",
+        "Belanja Perjalanan Dinas Biasa",
       ]
     };
 
-    function updateSubKegiatan() {
-      const kegiatan = document.getElementById('kegiatan');
-      const sub = document.getElementById('sub_kegiatan');
-      const val = kegiatan.value;
-      sub.innerHTML = '<option value="">-- Pilih Uraian Rekening --</option>';
-      if (uraianOptions[val]) {
-        uraianOptions[val].forEach(item => {
-          const opt = document.createElement('option');
-          opt.value = item;        // ✅ WAJIB AGAR NILAI DIKIRIM KE LARAVEL
-          opt.textContent = item;
-          sub.appendChild(opt);
-        });
-      }
+    if (kegiatanSelect && subKegiatanSelect) {
+      kegiatanSelect.addEventListener('change', () => {
+        subKegiatanSelect.innerHTML = `<option value="">-- Pilih Uraian Rekening --</option>`;
+        const val = kegiatanSelect.value;
+        if (uraianOptions[val]) {
+          uraianOptions[val].forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item;        // ✅ INI YANG WAJIB DITAMBAHKAN
+            opt.textContent = item;
+            subKegiatanSelect.appendChild(opt);
+          });
+        }
+      });
     }
 
     function setActiveButton(isUpload) {
@@ -404,13 +473,15 @@
       setActiveButton(false);
     }
 
-    document.getElementById('kegiatan').addEventListener('change', updateSubKegiatan);
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const term = this.value.toLowerCase();
-      document.querySelectorAll('#riwayatTable tr:not(:first-child)').forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        const term = this.value.toLowerCase().trim();
+        document.querySelectorAll('#riwayatTable tr:not(:first-child)').forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+        });
       });
-    });
+    }
 
     function updateFilePreview(inputId, previewId, iconId, textId) {
       const input = document.getElementById(inputId);
@@ -422,14 +493,18 @@
       input.addEventListener('change', function () {
         const file = this.files[0];
         if (file) {
-          icon.innerHTML = `<svg class="h-8 w-8 text-green-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+          icon.innerHTML = `<svg class="h-8 w-8 text-green-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>`;
           text.textContent = file.name.length > 20 ? file.name.substring(0, 17) + '...' : file.name;
           text.classList.add('text-green-600', 'font-semibold');
           preview.classList.replace('border-gray-300', 'border-green-300');
           preview.classList.replace('bg-gray-50', 'bg-green-50');
           preview.classList.add('border-solid');
         } else {
-          icon.innerHTML = `<svg class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 014 4v2a2 2 0 01-2 2h-3l-2.939 2.939a.999.999 0 01-1.414 0L9 14H7a2 2 0 01-2-2v-2z" /></svg>`;
+          icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 014 4v2a2 2 0 01-2 2h-3l-2.939 2.939a.999.999 0 01-1.414 0L9 14H7a2 2 0 01-2-2v-2z" />
+          </svg>`;
           text.textContent = 'Klik untuk unggah file PDF';
           text.classList.remove('text-green-600', 'font-semibold');
           preview.classList.replace('border-green-300', 'border-gray-300');

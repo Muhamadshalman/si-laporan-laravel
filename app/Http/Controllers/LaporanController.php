@@ -40,15 +40,18 @@ class LaporanController extends Controller
 
         // Simpan ke DB
         Laporan::create([
-            'bagian' => $bagian,
-            'tanggal' => $request->tanggal,
-            'kegiatan' => $request->kegiatan,
-            'sub_kegiatan' => $request->sub_kegiatan,
-            'file_laporan' => $pathLaporan,
-            'file_pajak' => $pathPajak,
-            'nama_file_laporan' => $namaLaporan,
-            'nama_file_pajak' => $namaPajak,
-        ]);
+    'bagian' => $bagian,
+    'tanggal' => $request->tanggal,
+    'kegiatan' => $request->kegiatan,
+    'sub_kegiatan' => $request->sub_kegiatan,
+    'uraian_kegiatan' => $request->uraian_kegiatan,
+    'jumlah_anggaran' => $request->jumlah_anggaran,
+    'file_laporan' => $pathLaporan,
+    'file_pajak' => $pathPajak,
+    'nama_file_laporan' => $namaLaporan,
+    'nama_file_pajak' => $namaPajak,
+]);
+    
 
         return redirect()->route('dashboard', $bagian)->with('success', 'Laporan berhasil diunggah!');
     }

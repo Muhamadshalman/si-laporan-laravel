@@ -12,15 +12,16 @@ class CheckBagian
 
 public function handle($request, Closure $next)
 {
-    // Jika superadmin → bebas akses semua
+    // Superadmin boleh akses semua
     if (session('role') === 'superadmin') {
         return $next($request);
     }
 
-    // Jika bukan superadmin → harus cocok dengan bagian
+    // Bagian dari URL → /dashboard/{bagian}
     $bagian = $request->route('bagian');
 
-    if (session('role') !== $bagian) {
+    // Cocokkan dengan session('bagian'), bukan role
+    if (session('bagian') !== $bagian) {
         abort(403, 'Anda tidak memiliki akses ke bagian ini.');
     }
 

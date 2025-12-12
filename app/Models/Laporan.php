@@ -14,10 +14,12 @@ class Laporan extends Model
         'tanggal',
         'kegiatan',
         'sub_kegiatan',
+        'uraian_kegiatan',
+        'jumlah_anggaran',   
         'file_laporan',
         'file_pajak',
         'nama_file_laporan',  
-        'nama_file_pajak',    
+        'nama_file_pajak', 
     ];
 
     protected $casts = [

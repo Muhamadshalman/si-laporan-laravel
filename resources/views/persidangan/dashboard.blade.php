@@ -81,12 +81,38 @@
               <div>
                 <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">Pilih Uraian Rekening</label>
                 <select name="sub_kegiatan" id="sub_kegiatan" required class="w-full border border-gray-300 rounded-lg p-2.5 text-sm appearance-none bg-white focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Pilih Sub Kegiatan dulu --</option>
+                  <option value="">-- Pilih Uraian Rekening --</option>
                 </select>
               </div>
             </div>
 
             <div class="grid grid-cols-1 gap-6 mb-6">
+              <div class="grid grid-cols-1 gap-5 mb-5">
+              <!-- Uraian Kegiatan -->
+                <div>
+                  <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">
+                    Uraian Kegiatan
+                 </label>
+               <textarea name="uraian_kegiatan" rows="3" required
+             class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+           placeholder="Tuliskan uraian kegiatan secara singkat..."></textarea>
+        </div>
+
+          <!-- Jumlah Anggaran -->
+            <div>
+              <label class="block text-gray-700 font-medium mb-1 text-xs md:text-sm">
+             Jumlah Anggaran (Rp)
+          </label>
+
+          <!-- Input(format rupiah) -->
+            <input type="text" id="format-rupiah" 
+              class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Contoh: 15.000.000">
+
+          <!-- Input hidden yang dikirim ke database -->
+            <input type="hidden" name="jumlah_anggaran" id="jumlah-anggaran">
+              </div>
+            </div>
               <!-- Laporan Kegiatan -->
               <div>
                 <label class="block text-gray-700 font-medium mb-2 text-xs md:text-sm">Upload Laporan Kegiatan (PDF)</label>
@@ -146,6 +172,12 @@
                 <div class="text-xs text-gray-600 mt-2">Uraian Rekening</div>
                 <div>{{ $item->sub_kegiatan }}</div>
 
+                <div class="text-sm text-gray-600 mt-2">Uraian Kegiatan</div>
+                <div>{{ $item->uraian_kegiatan }}</div>
+
+                <div class="text-sm text-gray-600 mt-2">Jumlah Anggaran</div>
+                <div>Rp {{ number_format($item->jumlah_anggaran, 0, ',', '.') }}</div>
+
                 <div class="flex flex-wrap gap-2 mt-3">
                   @if($item->file_laporan)
                     <a href="{{ route('laporan.download', ['type' => 'laporan', 'filename' => basename($item->file_laporan)]) }}" target="_blank"
@@ -183,6 +215,8 @@
                   <th class="p-3 border-b">Tanggal</th>
                   <th class="p-3 border-b">Sub Kegiatan</th>
                   <th class="p-3 border-b">Uraian Rekening</th>
+                  <th class="p-3 border-b">Uraian Kegiatan</th>
+                  <th class="p-3 border-b">Jumlah Anggaran</th>
                   <th class="p-3 border-b">File Laporan</th>
                   <th class="p-3 border-b">File Pajak</th>
                   <th class="p-3 border-b">Aksi</th>
@@ -194,6 +228,8 @@
                     <td class="p-3">{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                     <td class="p-3">{{ $item->kegiatan }}</td>
                     <td class="p-3">{{ $item->sub_kegiatan }}</td>
+                    <td class="p-3">{{ $item->uraian_kegiatan }}</td>
+                    <td class="p-3">Rp {{ number_format($item->jumlah_anggaran, 0, ',', '.') }}</td>
                     <td class="p-3">
                       @if($item->file_laporan)
                         <a href="{{ route('laporan.download', ['type' => 'laporan', 'filename' => basename($item->file_laporan)]) }}" target="_blank"
@@ -230,6 +266,17 @@
             Hapus
         </button>
     </form>
+    <script>
+          document.getElementById('format-rupiah').addEventListener('input', function() {
+          let angka = this.value.replace(/[^0-9]/g, '');
+
+          // update hidden input
+          document.getElementById('jumlah-anggaran').value = angka;
+
+          // format tampilan
+          this.value = new Intl.NumberFormat('id-ID').format(angka);
+});
+</script>
 </td>
                     </td>
                   </tr>
@@ -240,6 +287,18 @@
             </table>
           </div>
         </div>
+        <script>
+            function syncAnggaran() {
+            let nilai = document.getElementById('format-rupiah').value.replace(/[^0-9]/g, "");
+            document.getElementById('jumlah-anggaran').value = nilai;
+          }
+
+            // Jalan saat user mengetik
+            document.getElementById('format-rupiah').addEventListener('input', syncAnggaran);
+
+            // Jalan OTOMATIS saat halaman dibuka
+            window.addEventListener('DOMContentLoaded', syncAnggaran);
+          </script>
       </section>
 
       <footer class="mt-8 text-center text-gray-500 text-xs">
@@ -341,7 +400,7 @@
       if (uraianOptions[val]) {
         uraianOptions[val].forEach(item => {
           const opt = document.createElement('option');
-          opt.value = item;        // ✅ INI YANG WAJIB AGAR NILAI TERBACA DI LARAVEL
+          opt.value = item;        
           opt.textContent = item;
           sub.appendChild(opt);
         });

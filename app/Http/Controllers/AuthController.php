@@ -27,41 +27,51 @@ class AuthController extends Controller
     public function login(Request $request)
 {
     $request->validate([
-    'email' => 'required',
-    'password' => 'required',
-    'bagian' => 'required_unless:email,superadmin@dprd.sukabumi.go.id',
-]);
-
+        'email' => 'required',
+        'password' => 'required',
+        'bagian' => 'required_unless:email,superadmin@dprd.sukabumi.go.id',
+    ]);
 
     foreach ($this->accounts as $role => $akun) {
-    if ($request->email === $akun['email'] && $request->password === $akun['password']) {
 
-        Session::put('role', $role);
-        Session::put('logged_in', true);
+        if ($request->email === $akun['email'] && $request->password === $akun['password']) {
 
-        // Jika superadmin
-        if ($role === 'superadmin') {
-            // Tidak perlu bagian, langsung ke halaman superadmin
-            return redirect('/dashboard/superadmin');
+            // Wajib: simpan session login & role
+            session([
+                'logged_in' => true,
+                'role' => $role,
+            ]);
+
+            // ==============================
+            // 🟥 1. LOGIN SUPERADMIN
+            // ==============================
+            if ($role === 'superadmin') {
+
+                // Simpan sebagai superadmin
+                session(['bagian' => 'superadmin']); // WAJIB agar middleware tidak error
+
+                return redirect()->route('superadmin.dashboard');
+            }
+
+            // ==============================
+            // 🟦 2. LOGIN USER BAGIAN
+            // ==============================
+            $bagian = $request->bagian;
+
+            if ($role === $bagian) {
+                session(['bagian' => $bagian]);
+                return redirect("/dashboard/{$bagian}");
+            }
+
+            return back()->with('error', 'Akses ditolak ke bagian tersebut.');
         }
-
-        // Untuk user biasa harus sesuai bagian
-        $bagian = $request->bagian;
-
-        if ($role === $bagian) {
-            Session::put('bagian', $bagian);
-            return redirect("/dashboard/{$bagian}");
-        }
-
-        return back()->with('error', 'Akses ditolak ke bagian tersebut.');
     }
-}
 
     return back()->with('error', 'Email atau password salah!');
 }
-    public function logout()
+    public function logout(Request $request)
     {
-        Session::flush();
-        return redirect('/');
+        $request->session()->flush();
+        return redirect()->route('welcome');
     }
 }
