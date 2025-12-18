@@ -1,0 +1,17 @@
+resources/views/
+├── layouts/
+│   └── superadmin.blade.php
+│
+├── components/
+│   ├── superadmin/
+│   │   ├── header.blade.php
+│   │   ├── sidebar.blade.php
+│   │   ├── card-bagian.blade.php
+│   │   └── table-laporan.blade.php
+│   └── button.blade.php
+│
+├── superadmin/
+│   ├── dashboard.blade.php
+│   └── bagian/
+│       ├── index.blade.php
+│       └── cetak.blade.php

@@ -5,12 +5,20 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Middleware\CheckBagian;
 
-// ======================================
-// 🔹 HALAMAN PEMBUKA
-// ======================================
+// ===============================
+// 🔹 HALAMAN PUBLIK
+// ===============================
 Route::get('/', function () {
     return view('auth.welcome');
 })->name('welcome');
+
+Route::get('/tentang', function () {
+    return view('pages.tentang');
+})->name('tentang');
+
+Route::get('/informasi', function () {
+    return view('pages.informasi');
+})->name('informasi');
 
 
 // ======================================

@@ -1,106 +1,97 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SILANDRA - Sekretariat DPRD Kab. Sukabumi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        /* Animasi profesional */
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade {
-            animation: fadeInUp 1s ease-out;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SILANDRA | Sekretariat DPRD Kab. Sukabumi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen flex bg-gray-100">
+<body class="bg-slate-50 text-gray-800">
 
-    <!-- BAGIAN KIRI -->
-    <div class="w-1/2 bg-white flex flex-col justify-center items-center p-12 animate-fade shadow-xl relative">
+<!-- NAVBAR -->
+<header class="bg-white shadow-sm fixed w-full z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="{{ asset('images/logo_sukabumi3.png') }}" class="w-10" alt="Logo">
+      <span class="font-bold text-lg">SILANDRA</span>
+    </div>
+    <nav class="hidden md:flex gap-8 text-sm font-medium">
+  <a href="{{ route('welcome') }}" class="hover:text-blue-700">Beranda</a>
+  <a href="{{ route('tentang') }}" class="hover:text-blue-700">Tentang</a>
+  <a href="{{ route('informasi') }}" class="hover:text-blue-700">Informasi</a>
+    </nav>
+    </div>
+    </a>
+  </div>
+</header>
 
-        <img src="{{ asset('images/logo_sukabumi3.png') }}" 
-             alt="Logo Sukabumi" 
-             class="w-40 opacity-90 mb-6">
+<!-- HERO SECTION -->
+<section class="pt-32 pb-24">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
 
-        <h1 class="text-4xl font-extrabold text-gray-900 tracking-wide mb-2">
-            SILANDRA
-        </h1>
-
-        <p class="text-gray-700 text-lg font-medium mb-10 text-center">
-            Sistem Laporan dan Administrasi  
-            <br>Sekretariat DPRD Kabupaten Sukabumi
-        </p>
-
-        <a href="{{ route('login') }}" 
-           class="bg-blue-900 text-white px-12 py-3 rounded-lg 
-                  hover:bg-blue-800 transition font-semibold shadow-lg tracking-wider">
-            MASUK KE SISTEM
+    <!-- TEXT -->
+    <div>
+      <span class="inline-block bg-yellow-100 text-yellow-700 text-xs font-semibold px-4 py-1 rounded-full mb-4">
+        Sistem Informasi Resmi
+      </span>
+      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-6">
+        Sistem Laporan Administrasi & Arsip Digital<br>
+        <span class="text-blue-800">Sekretariat DPRD Kabupaten Sukabumi</span>
+      </h1>
+      <p class="text-gray-600 mb-8 max-w-xl">
+        SILANDRA mendukung pengelolaan laporan administrasi dan arsip digital secara
+        transparan, terstruktur, dan terintegrasi antar bagian.
+      </p>
+      <div class="flex gap-4">
+        <a href="{{ route('login') }}" class="bg-blue-800 hover:bg-blue-900 text-white px-8 py-3 rounded-full font-semibold shadow">
+          Masuk Sistem
         </a>
-
-        <!-- Garis emas dekoratif -->
-        <div class="absolute bottom-10 w-2/3 h-1 bg-yellow-500 rounded-full"></div>
-
+        <a href="#" class="border border-blue-800 text-blue-800 px-8 py-3 rounded-full font-semibold hover:bg-blue-50">
+          Pelajari
+        </a>
+      </div>
     </div>
 
-    <!-- BAGIAN KANAN -->
-<div class="w-1/2 relative overflow-hidden">
-
-    <!-- Background -->
-    <div class="absolute inset-0 bg-cover bg-center"
-         style="background-image: url('{{ asset('images/dprd.png') }}');">
-    </div>
-
-    <!-- Overlay gelap -->
-    <div class="absolute inset-0 bg-black/55"></div>
-
-    <!-- Konten Tengah -->
-<div class="relative z-10 flex flex-col justify-center items-center text-center h-full px-10">
-
-    <h2 class="text-4xl font-extrabold text-white tracking-wider drop-shadow-lg">
-        SEKRETARIAT DPRD KABUPATEN SUKABUMI
-    </h2>
-
+   <!-- VISUAL GEDUNG DPRD / ARSIP DIGITAL -->
+<div class="relative flex justify-center md:justify-end">
+<div class="rounded-2xl overflow-hidden shadow-lg w-full max-w-xl">
+<img src="{{ asset('images/dprd.png') }}" alt="Gedung DPRD Kabupaten Sukabumi" class="w-full h-80 object-cover">
 </div>
-
-    <!-- Informasi Bawah -->
-    <div class="absolute bottom-8 w-full px-10 grid grid-cols-2 gap-6 text-white z-10">
-
-        <!-- Card 1 -->
-        <div class="bg-white/15 p-4 rounded-lg border border-white/20">
-            <p class="text-sm font-semibold text-yellow-300 mb-1">Alamat Kantor</p>
-            <p class="text-xs leading-relaxed text-gray-200">
-                Jl. Jend. Sudirman Komplek Perkantoran Jajaway<br>
-                Palabuhanratu 43364 Jawa Barat
-            </p>
-        </div>
-
-        <!-- Card 2 -->
-<div class="bg-white/15 p-4 rounded-lg border border-white/20 text-right">
-    <p class="text-sm font-semibold text-yellow-300 mb-1">Media Sosial</p>
-
-    <!-- Instagram -->
-    <p class="text-xs text-gray-200 flex justify-end items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm8 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm3.5-.25h.01"/>
-        </svg>
-        @dprdkabupatensukabumi
-    </p>
-
-    <!-- Email -->
-    <p class="text-xs text-gray-200 flex justify-end items-center gap-1 mt-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5H4.5A2.25 2.25 0 0 0 2.25 6.75m19.5 0L12 13.5 2.25 6.75"/>
-        </svg>
-        dprd@kabupatensukabumi.go.id
-    </p>
-
+<!-- Overlay label -->
+<div class="absolute -bottom-4 left-4 bg-white/95 backdrop-blur px-4 py-2 rounded-xl shadow">
+<p class="text-xs font-semibold text-blue-800">Sekretariat DPRD Kab. Sukabumi</p>
+<p class="text-[11px] text-gray-600">Arsip & Laporan Digital</p>
+</div>
 </div>
 
 
+</div>
+</section>
+
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-gray-300">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-2 gap-6">
+    <div>
+      <h4 class="font-bold text-white mb-2">Sekretariat DPRD Kabupaten Sukabumi</h4>
+      <p class="text-sm">Jl. Jend. Sudirman Komplek Perkantoran Jajaway<br>Palabuhanratu 43364</p>
+    </div>
+    <div class="md:text-right">
+      <p class="text-sm">Instagram: @dprdkabupatensukabumi</p>
+      <p class="text-sm">Email: dprd@kabupatensukabumi.go.id</p>
+    </div>
+  </div>
+  <div class="flex flex-col items-center justify-center text-center gap-1 pb-6">
+    <div class="text-xs text-gray-400">
+        © {{ date('Y') }} Sekretariat DPRD Kab Sukabumi — SILANDRA
+    </div>
+    <span class="text-xs text-gray-500">
+        Developed by <b class="text-gray-300">Muhamad Shalman</b>
+    </span>
+</div>
+</footer>
+</html>

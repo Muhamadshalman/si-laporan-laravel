@@ -1,12 +1,25 @@
-  <header class="flex items-center bg-gray-200 p-4 md:p-5 shadow-sm border-b border-gray-300">
-  <img src="/images/logo_sukabumi3.png" alt="Logo" class="mt-4 h-24 w-auto mr-4 md:h-20">
+<header class="bg-white border-b border-blue-100 shadow-sm">
+  <div class="flex items-center px-6 py-4 gap-4">
+    
+    <!-- Logo -->
+    <img 
+      src="/images/logo_sukabumi3.png" 
+      alt="Logo Sukabumi"
+      class="h-14 w-auto"
+    >
 
-  <div class="flex flex-col">
-    <h1 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight">
-      BAGIAN PERSIDANGAN
-    </h1>
-    <p class="text-sm md:text-base font-medium text-gray-700 mt-1">
-      SEKRETARIAT DPRD KABUPATEN SUKABUMI
-    </p>
+    <!-- Title -->
+    <div class="leading-tight">
+      <h1 class="text-xl md:text-2xl font-bold text-slate-800">
+        BAGIAN PERSIDANGAN
+      </h1>
+      <p class="text-sm md:text-base font-medium text-slate-600">
+        SEKRETARIAT DPRD KABUPATEN SUKABUMI
+      </p>
+    </div>
+
   </div>
+
+  <!-- Accent Line -->
+  <div class="h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
 </header>

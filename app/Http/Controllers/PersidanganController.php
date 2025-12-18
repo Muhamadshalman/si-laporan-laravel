@@ -9,13 +9,14 @@ use App\Models\Laporan;
 
 class PersidanganController extends Controller
 {
-    public function index()
-    {
-        $riwayat = Laporan::latest()->get();
-        return view('persidangan.dashboard', compact('riwayat'));
-    }
-    public function destroyMultiple(Request $request)
+    public function index($bagian)
 {
+    $riwayat = Laporan::where('bagian', $bagian)
+                      ->orderBy('created_at', 'desc')
+                      ->get();
+    
+    return view('persidangan.dashboard', compact('bagian', 'riwayat'));
+}
     $request->validate(['ids' => 'required|string']);
 
     $ids = explode(',', $request->ids);
