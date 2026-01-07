@@ -144,7 +144,8 @@
                     </h2>
 
                     <p class="text-gray-600 text-sm leading-relaxed">
-                        Pengelolaan agenda persidangan & risalah rapat DPRD
+                        
+                        
                     </p>
 
                     <div class="mt-4 flex items-center text-orange-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition">

@@ -90,7 +90,7 @@
 </div>
         <!-- BUTTON -->
         <button class="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-2 rounded-xl shadow">
-            Masuk Sistem
+            LOGIN
         </button>
     </form>
 

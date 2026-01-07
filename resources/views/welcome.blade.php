@@ -20,35 +20,7 @@
         @endif
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
-
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header>
+        @include('partials.navbar')
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
@@ -271,7 +243,43 @@
         </div>
 
         @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
+            <div class="w-full max-w-7xl mx-auto px-6 pb-12">
+              <div class="bg-white dark:bg-[#161615] rounded-lg shadow p-6 flex flex-col lg:flex-row items-center gap-4">
+                {{-- Colored columns --}}
+                <div class="hidden lg:flex flex-col w-8 rounded-l-lg overflow-hidden">
+                  <div class="flex-1 bg-gradient-to-b from-blue-500 to-indigo-600"></div>
+                  <div class="flex-1 bg-gradient-to-b from-green-400 to-emerald-500"></div>
+                  <div class="flex-1 bg-gradient-to-b from-yellow-400 to-orange-400"></div>
+                </div>
+
+                <div class="flex-1 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <h3 class="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">Masuk ke SILANDRA</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Akses dashboard untuk mengunggah dan memvalidasi laporan Anda.</p>
+                  </div>
+
+                  <div class="flex items-center gap-3">
+                    @auth
+                      <a href="{{ url('/dashboard') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md text-sm shadow-lg hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a2 2 0 00-2 2v2H6a2 2 0 00-2 2v4h12V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2z"/></svg>
+                        <span>Dashboard</span>
+                      </a>
+                    @else
+                      <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md text-sm shadow-lg hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 100-2H4V6h8a1 1 0 100-2H3z" clip-rule="evenodd"/><path d="M13 7l3 3m0 0l-3 3m3-3H9"/></svg>
+                        <span>Log in</span>
+                      </a>
+                      @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50 hover:border-gray-300 transition">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M8 9a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M2 15a6 6 0 1112 0v1H2v-1z" clip-rule="evenodd"/></svg>
+                          <span>Register</span>
+                        </a>
+                      @endif
+                    @endauth
+                  </div>
+                </div>
+              </div>
+            </div>
         @endif
     </body>
 </html>

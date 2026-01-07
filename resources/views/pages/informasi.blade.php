@@ -9,20 +9,7 @@
 
 <body class="bg-slate-50 text-gray-800">
 
-<!-- NAVBAR -->
-<header class="bg-white shadow-sm fixed w-full z-50">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <img src="{{ asset('images/logo_sukabumi3.png') }}" class="w-10">
-      <span class="font-bold text-lg">SILANDRA</span>
-    </div>
-    <nav class="hidden md:flex gap-8 text-sm font-medium">
-      <a href="{{ route('welcome') }}" class="hover:text-blue-700">Beranda</a>
-      <a href="{{ route('tentang') }}" class="hover:text-blue-700">Tentang</a>
-      <a href="{{ route('informasi') }}" class="text-blue-700">Informasi</a>
-    </nav>
-  </div>
-</header>
+@include('partials.navbar')
 
 <!-- HERO -->
 <section class="pt-32 pb-24 relative bg-cover bg-center"
