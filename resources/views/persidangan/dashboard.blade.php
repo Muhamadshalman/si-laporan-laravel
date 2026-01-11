@@ -94,6 +94,25 @@
         <div class="mb-6">
           <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">Menu Utama</p>
           
+@if(session('role') === 'superadmin')
+          <a href="{{ route('dashboard.validasi', 'persidangan') }}" class="group w-full text-left px-4 py-3.5 rounded-xl hover:bg-gray-700/50 transition-all duration-200 font-medium flex items-center gap-3 relative overflow-hidden">
+            <div class="bg-green-500/10 p-2 rounded-lg group-hover:bg-green-500/20 transition-colors">
+              <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="text-sm">Validasi Laporan</span>
+          </a>
+
+          <a href="{{ route('dashboard.cetak', 'persidangan') }}" class="group w-full text-left px-4 py-3.5 rounded-xl hover:bg-gray-700/50 transition-all duration-200 font-medium flex items-center gap-3 relative overflow-hidden mt-2">
+            <div class="bg-blue-500/10 p-2 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v2a2 2 0 002 2h2a2 2 0 002-2v-2"/>
+              </svg>
+            </div>
+            <span class="text-sm">Cetak Laporan</span>
+          </a>
+@else
           <button onclick="showUpload()" id="btn-upload" 
             class="group w-full text-left px-4 py-3.5 rounded-xl hover:bg-gray-700/50 transition-all duration-200 font-medium flex items-center gap-3 relative overflow-hidden">
             <div class="bg-blue-500/10 p-2 rounded-lg group-hover:bg-blue-500/20 transition-colors">
@@ -113,6 +132,7 @@
             </div>
             <span class="text-sm">Riwayat Laporan</span>
           </button>
+@endif
         </div>
 
         <!-- User Info Card -->
@@ -203,25 +223,23 @@
   <!-- MOBILE BOTTOM NAV -->
   <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-2xl md:hidden z-50">
     <div class="flex items-center justify-around">
-      <button onclick="showUpload()" id="btn-upload-mobile" 
-        class="flex-1 flex flex-col items-center justify-center py-3 transition-all duration-200 relative">
-        <div class="bg-blue-100 p-2 rounded-lg mb-1 group-hover:bg-blue-200 transition-colors">
-          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+      <a href="{{ route('dashboard.validasi', 'persidangan') }}" class="flex-1 flex flex-col items-center justify-center py-3 transition-all duration-200 relative">
+        <div class="bg-green-100 p-2 rounded-lg mb-1 transition-colors">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
-        <span class="text-xs font-medium text-gray-600">Upload</span>
-      </button>
+        <span class="text-xs font-medium text-gray-600">Validasi</span>
+      </a>
 
-      <button onclick="showRiwayat()" id="btn-riwayat-mobile" 
-        class="flex-1 flex flex-col items-center justify-center py-3 transition-all duration-200 relative">
-        <div class="bg-indigo-100 p-2 rounded-lg mb-1 group-hover:bg-indigo-200 transition-colors">
-          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      <a href="{{ route('dashboard.cetak', 'persidangan') }}" class="flex-1 flex flex-col items-center justify-center py-3 transition-all duration-200 relative">
+        <div class="bg-blue-100 p-2 rounded-lg mb-1 transition-colors">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v2a2 2 0 002 2h2a2 2 0 002-2v-2"/>
           </svg>
         </div>
-        <span class="text-xs font-medium text-gray-600">Riwayat</span>
-      </button>
+        <span class="text-xs font-medium text-gray-600">Cetak</span>
+      </a>
 
       <form action="{{ route('logout') }}" method="POST" class="flex-1">
         @csrf
